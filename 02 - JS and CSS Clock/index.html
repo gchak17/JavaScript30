@@ -84,9 +84,9 @@
       let minutes = date.getMinutes();      
       let hours = date.getHours() % 12;
 
-      secHand.style.transform = `rotate(${initDeg + (seconds === 0 ? 0 : (6 * seconds))}deg)`;
-      minHand.style.transform = `rotate(${initDeg + (minutes === 0 ? 0 : (6 * minutes))}deg)`;
-      hourHand.style.transform = `rotate(${initDeg + (hours === 0 ? 0 : (30 * hours))}deg)`;
+      secHand.style.transform = `rotate(${initDeg + 6 * seconds}deg)`;
+      minHand.style.transform = `rotate(${initDeg + 6 * minutes}deg)`;
+      hourHand.style.transform = `rotate(${initDeg + 30 * hours}deg)`;
     }, 1000);
   </script>
 </body>
