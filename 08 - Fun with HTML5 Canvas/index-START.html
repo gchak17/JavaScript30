@@ -5,13 +5,44 @@
   <title>HTML5 Canvas</title>
 </head>
 <body>
-<canvas id="draw" width="800" height="800"></canvas>
+<canvas id="draw" width="400" height="400"></canvas>
 <script>
+	let drawing = false;
+	let dx = -1, dy = -1;
+	const canvas = document.getElementById('draw');
+	const ctx = canvas.getContext('2d');
+
+	const drawLine = (dx, dy, ux, uy) => {
+		ctx.beginPath();
+		ctx.moveTo(dx, dy);
+		ctx.lineTo(ux, uy);
+		ctx.stroke();
+	}
+
+	canvas.addEventListener('mousedown', e => drawing = true);
+	canvas.addEventListener('mouseup', e => drawing = false);
+	canvas.addEventListener('mousemove', e => {
+		if(drawing){
+			if(dx !== -1 && dy !== -1){
+				drawLine(dx, dy, e.x, e.y);
+			}
+			dx = e.x;
+			dy = e.y;
+		}else{
+			dx = -1;
+			dy = -1;
+		}
+	});
+
 </script>
 
 <style>
   html, body {
     margin: 0;
+  }
+
+  #draw{
+  	outline: 1px solid black;
   }
 </style>
 
