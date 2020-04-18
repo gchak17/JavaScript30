@@ -96,6 +96,44 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  let prev = -1;
+  let holdingShift = false;
+  
+  checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener('change', e => {
+      myFun(checkbox, index);
+    })
+  })
+
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Shift') holdingShift = true;
+  });
+
+  document.addEventListener('keyup', e => {
+    if(e.key === 'Shift') holdingShift = false;
+  });
+
+  function myFun(checkbox, index){
+    if(prev === -1){
+      prev = index;
+    }else{
+      if(holdingShift && checkbox.checked){
+        let minIdx = Math.min(prev, index);
+        let maxIdx = Math.max(prev, index);
+
+        checkboxes.forEach((checkbox, index) => {
+          if(index >= minIdx && index <= maxIdx){
+            checkbox.checked = true;
+          }
+        });
+
+        prev = maxIdx;
+      }
+    }
+  }
+
+
 </script>
 </body>
 </html>
