@@ -58,6 +58,17 @@
       };
     }
 
+    const images = document.querySelectorAll('.slide-in');
+
+    function scrolling(e){
+      images.forEach(img => {
+        if(img.offsetTop < window.innerHeight + window.scrollY){
+          img.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', debounce(scrolling));
   </script>
 
   <style>
