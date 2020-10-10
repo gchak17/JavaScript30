@@ -26,9 +26,60 @@
   </div>
 
 <script>
-  const addItems = document.querySelector('.add-items');
-  const itemsList = document.querySelector('.plates');
-  const items = [];
+  const form = document.querySelector('.add-items');
+  const plates = document.querySelector('.plates');
+  const savedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+
+  function addPlate(e){
+    e.preventDefault();
+
+    const newPlate = { text: this.querySelector('[name=item]').value, isDone: false };
+    savedItems.push(newPlate);
+
+    const newList = document.createElement('li');
+
+    const input = document.createElement('input');
+    input.setAttribute('type', 'checkbox');
+    input.setAttribute('data-index', `${savedItems.length - 1}`);
+    input.setAttribute('id', `item${savedItems.length - 1}`);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', `item${savedItems.length - 1}`);
+    const labelText = document.createTextNode(newPlate.text);
+    label.appendChild(labelText);
+
+    newList.appendChild(input);
+    newList.appendChild(label);
+    plates.appendChild(newList);
+
+    localStorage.setItem('savedItems', JSON.stringify(savedItems));
+    this.reset();
+  }
+
+  function populatePlates(savedItems = [], plates) {
+    plates.innerHTML = savedItems.map((plate, idx) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${idx} id="item${idx} ${plate.isDone ? 'checked' : ''} />
+          <label for="item${idx}">${plate.text}</label>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function changeDone(e){
+    if (!e.target.matches('input')) return;
+
+    const idx = e.target.dataset.index;
+    savedItems[idx].isDone = !savedItems[idx].idDone;
+    localStorage.setItem('savedItems', JSON.stringify(savedItems));
+
+    populatePlates(savedItems, plates);
+  }
+
+  form.addEventListener('submit', addPlate);
+  plates.addEventListener('click', changeDone);
+  populatePlates(savedItems, plates);
 
 </script>
 
