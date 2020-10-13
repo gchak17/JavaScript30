@@ -46,8 +46,20 @@
   <ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
-
+  const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  
+  const replaceArticle = el => el.replace(/^(a |the |an )/i, '').trim();
+  const compareBands = (el1, el2) => replaceArticle(el1) > replaceArticle(el2) ? 1 : -1;
+  
+  bands.sort(compareBands);
+  const bandsList = document.querySelector('#bands');
+  
+  bands.forEach(band => {
+    const li = document.createElement('li');
+    const text = document.createTextNode(band);
+    li.appendChild(text);
+    bandsList.appendChild(li);
+  });
 
 </script>
 
